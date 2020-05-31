@@ -1,0 +1,36 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<ctime>
+using std::cout;
+using std::cin;
+using std::endl;
+int main() {
+	
+	tm timeinfo = { 0 };
+	struct tm* ptimeinfo=&timeinfo;
+	char buffer[80];
+	cout << "Year? " << endl;
+	cin >> ptimeinfo->tm_year;
+	ptimeinfo->tm_year -= 1900;
+	cout << "Month ? " << endl;
+	cin >> ptimeinfo->tm_mon;
+	ptimeinfo->tm_mon -= 1;
+	cout << "Date ? " << endl;
+	cin >> ptimeinfo->tm_mday;
+	cout << "Hour ? " << endl;
+	cin >> ptimeinfo->tm_hour;
+	cout << "Minute ? " << endl;
+	cin >> ptimeinfo->tm_min;
+	cout << "Second ? " << endl;
+	cin >> ptimeinfo->tm_sec;
+	time_t rawtime;
+	rawtime = mktime(ptimeinfo);
+	ptimeinfo = localtime(&rawtime);
+	strftime(buffer, 80, "You checked out the book on %c ", ptimeinfo);
+	cout << buffer << endl;
+	rawtime += (45 * 24 * 60 * 60);
+	ptimeinfo = localtime(&rawtime);
+	strftime(buffer, 80, "You should return it in 45 days, so the due date is %A, %h %d, %G", ptimeinfo);
+	cout << buffer;
+	return 0;
+}
